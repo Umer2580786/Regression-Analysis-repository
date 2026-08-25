@@ -1,0 +1,185 @@
+# ============================================================
+# LINEAR REGRESSION IN R
+# Agricultural Example: Rainfall and Crop Yield
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. Create the agricultural dataset
+# ------------------------------------------------------------
+
+agricultural_data <- data.frame(
+  Year = 2015:2024,
+  Rainfall_mm = c(620, 680, 710, 760, 800,
+                  735, 850, 890, 920, 970),
+  Yield_kg_ha = c(2850, 3020, 3150, 3290, 3450,
+                  3210, 3600, 3740, 3890, 4050)
+)
+
+
+# ------------------------------------------------------------
+# 2. View the data
+# ------------------------------------------------------------
+
+print(agricultural_data)
+
+View(agricultural_data)
+
+
+# ------------------------------------------------------------
+# 3. Check the structure of the data
+# ------------------------------------------------------------
+
+str(agricultural_data)
+
+
+# ------------------------------------------------------------
+# 4. Summary statistics
+# ------------------------------------------------------------
+
+summary(agricultural_data)
+
+
+# ------------------------------------------------------------
+# 5. Create a scatter plot
+# ------------------------------------------------------------
+
+plot(
+  agricultural_data$Rainfall_mm,
+  agricultural_data$Yield_kg_ha,
+  xlab = "Seasonal Rainfall (mm)",
+  ylab = "Crop Yield (kg/ha)",
+  main = "Rainfall vs Crop Yield",
+  pch = 19
+)
+
+
+# ------------------------------------------------------------
+# 6. Fit the linear regression model
+# ------------------------------------------------------------
+
+model <- lm(
+  Yield_kg_ha ~ Rainfall_mm,
+  data = agricultural_data
+)
+
+
+# ------------------------------------------------------------
+# 7. Display the regression results
+# ------------------------------------------------------------
+
+summary(model)
+
+
+# ------------------------------------------------------------
+# 8. Display the regression coefficients
+# ------------------------------------------------------------
+
+coef(model)
+
+
+# ------------------------------------------------------------
+# 9. Extract the intercept
+# ------------------------------------------------------------
+
+intercept <- coef(model)[1]
+
+print(intercept)
+
+
+# ------------------------------------------------------------
+# 10. Extract the slope
+# ------------------------------------------------------------
+
+slope <- coef(model)[2]
+
+print(slope)
+
+
+# ------------------------------------------------------------
+# 11. Print the regression equation
+# ------------------------------------------------------------
+
+cat(
+  "Regression Equation: Yield =",
+  round(intercept, 2),
+  "+",
+  round(slope, 2),
+  "* Rainfall\n"
+)
+
+
+# ------------------------------------------------------------
+# 12. Calculate R-squared
+# ------------------------------------------------------------
+
+r_squared <- summary(model)$r.squared
+
+cat(
+  "R-squared =",
+  round(r_squared, 4),
+  "\n"
+)
+
+
+# ------------------------------------------------------------
+# 13. Create the regression plot
+# ------------------------------------------------------------
+
+plot(
+  agricultural_data$Rainfall_mm,
+  agricultural_data$Yield_kg_ha,
+  xlab = "Seasonal Rainfall (mm)",
+  ylab = "Crop Yield (kg/ha)",
+  main = "Linear Regression: Rainfall vs Crop Yield",
+  pch = 19
+)
+
+abline(
+  model,
+  lwd = 2
+)
+
+
+# ------------------------------------------------------------
+# 14. Save the regression plot in the www folder
+# ------------------------------------------------------------
+
+png(
+  "www/regression_plot.png",
+  width = 1000,
+  height = 700
+)
+
+plot(
+  agricultural_data$Rainfall_mm,
+  agricultural_data$Yield_kg_ha,
+  xlab = "Seasonal Rainfall (mm)",
+  ylab = "Crop Yield (kg/ha)",
+  main = "Linear Regression: Rainfall vs Crop Yield",
+  pch = 19
+)
+
+abline(
+  model,
+  lwd = 2
+)
+
+dev.off()
+
+
+# ------------------------------------------------------------
+# 15. Diagnostic plots
+# ------------------------------------------------------------
+
+png(
+  "www/linear_regression_model.png",
+  width = 1200,
+  height = 900
+)
+
+par(mfrow = c(2, 2))
+
+plot(model)
+
+dev.off()
